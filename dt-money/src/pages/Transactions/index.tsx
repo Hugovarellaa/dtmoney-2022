@@ -1,9 +1,27 @@
+import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "./components/SearchForm";
 import { PriceHighLight, TransactionsContainer, TransactionTable } from "./styles";
 
+interface Transaction {
+  id: number,
+  description: string
+  type: "income" | "outcome",
+  category: string,
+  price: number,
+  createdAt: string
+}
+
 export function Transactions() {
+  const [transactions, setTransactions] = useState<Transaction[]>([])
+
+  useEffect(() => {
+    fetch("http://localhost:3333/transactions")
+      .then(response => response.json())
+      .then(response => setTransactions(response))
+  }, [])
+
   return (
     <div>
 
@@ -14,27 +32,21 @@ export function Transactions() {
         <SearchForm />
         <TransactionTable>
           <tbody>
-            <tr>
-              <td>Desenvolvimento de site</td>
-              <td>
-                <PriceHighLight variant="income">
-                  R$ 12.000,00
-                </PriceHighLight>
-              </td>
-              <td>Venda</td>
-              <td>13/04/2022</td>
-            </tr>
 
-            <tr>
-              <td>Hamburguer</td>
-              <td>
-                <PriceHighLight variant="outcome">
-                  - R$ 59,00
-                </PriceHighLight>
-              </td>
-              <td>Alimentação</td>
-              <td>10/04/2022</td>
-            </tr>
+            {
+              transactions.map(transaction => (
+                <tr key={transaction.id}>
+                  <td>{transaction.description}</td>
+                  <td>
+                    <PriceHighLight variant={transaction.type}>
+                      R$ {transaction.price}
+                    </PriceHighLight>
+                  </td>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.createdAt}</td>
+                </tr>
+              ))
+            }
 
           </tbody>
         </TransactionTable>
