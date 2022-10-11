@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react';
 import { Controller, useForm } from 'react-hook-form';
 import * as zod from "zod";
+import { useTransaction } from '../../hooks/useTransaction';
 import { CloseButton, Content, Overlay, TransactionType, TransactionTypeButton } from './styles';
 
 const newTransactionFormSchema = zod.object({
@@ -15,12 +16,14 @@ const newTransactionFormSchema = zod.object({
 type NewTransactionFormInputs = zod.infer<typeof newTransactionFormSchema>
 
 export function NewTransactionModal() {
+  const { createTransaction } = useTransaction()
 
   const {
     control,
     register,
     handleSubmit,
-    formState: { isSubmitting }
+    formState: { isSubmitting },
+    reset
   } = useForm<NewTransactionFormInputs>({
     resolver: zodResolver(newTransactionFormSchema),
     defaultValues: {
@@ -29,9 +32,10 @@ export function NewTransactionModal() {
   })
 
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
-    await new Promise(resolve => setTimeout(resolve, 2000))
 
-    console.log(data)
+    createTransaction(data)
+
+    reset()
   }
 
   return (
@@ -90,4 +94,8 @@ export function NewTransactionModal() {
       </Content>
     </Dialog.Portal>
   )
+}
+
+function createTransaction(data: { type: "income" | "outcome"; description: string; category: string; price: number; }) {
+  throw new Error('Function not implemented.');
 }
