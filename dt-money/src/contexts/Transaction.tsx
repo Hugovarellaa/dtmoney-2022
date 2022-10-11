@@ -1,20 +1,20 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { api } from "../services/axios";
+import { createContext, ReactNode, useEffect, useState } from 'react'
+import { api } from '../services/axios'
 
 interface Transaction {
-  id: number,
+  id: number
   description: string
-  type: "income" | "outcome",
-  category: string,
-  price: number,
+  type: 'income' | 'outcome'
+  category: string
+  price: number
   createdAt: string
 }
 
 interface CreateTransactionInput {
-  description: string;
-  price: number;
-  category: string;
-  type: "income" | "outcome";
+  description: string
+  price: number
+  category: string
+  type: 'income' | 'outcome'
 }
 
 interface TransactionContextData {
@@ -36,8 +36,8 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
       params: {
         _sort: 'createdAt',
         _order: 'asc',
-        q: query
-      }
+        q: query,
+      },
     })
     setTransactions(response.data)
   }
@@ -52,7 +52,7 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
       type,
       createdAt: new Date(),
     })
-    setTransactions(oldTransactions => [...oldTransactions, response.data])
+    setTransactions((oldTransactions) => [...oldTransactions, response.data])
   }
 
   useEffect(() => {
@@ -60,11 +60,13 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
   }, [])
 
   return (
-    <TransactionContext.Provider value={{
-      transactions,
-      fetchTransactions,
-      createTransaction
-    }}>
+    <TransactionContext.Provider
+      value={{
+        transactions,
+        fetchTransactions,
+        createTransaction,
+      }}
+    >
       {children}
     </TransactionContext.Provider>
   )
