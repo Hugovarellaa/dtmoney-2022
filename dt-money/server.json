@@ -63,6 +63,14 @@
       "type": "outcome",
       "createdAt": "2022-10-11T14:34:14.732Z",
       "id": 8
+    },
+    {
+      "description": "Extra",
+      "category": "Filmes",
+      "price": 1000,
+      "type": "income",
+      "createdAt": "2022-10-11T14:43:58.187Z",
+      "id": 9
     }
   ]
 }

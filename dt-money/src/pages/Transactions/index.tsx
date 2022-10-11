@@ -1,16 +1,20 @@
+/* eslint-disable prettier/prettier */
+import { useContextSelector } from 'use-context-selector'
 import { Header } from '../../components/Header'
 import { Summary } from '../../components/Summary'
-import { useTransaction } from '../../hooks/useTransaction'
+import { TransactionContext } from '../../contexts/Transaction'
 import { dateFormatter, priceFormatter } from '../../utils/formatter'
 import { SearchForm } from './components/SearchForm'
 import {
   PriceHighLight,
   TransactionsContainer,
-  TransactionTable,
+  TransactionTable
 } from './styles'
 
 export function Transactions() {
-  const { transactions } = useTransaction()
+  const transactions = useContextSelector(TransactionContext, (context) => {
+    return context.transactions
+  })
 
   return (
     <div>
