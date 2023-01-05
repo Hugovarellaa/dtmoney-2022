@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+desafio.md
+aula.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
