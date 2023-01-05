@@ -1,16 +1,16 @@
-import { Header } from "../../components/Header";
-import { Summary } from "../../components/Summary";
-import { useTransactions } from "../../contexts/useTransactions";
-import { dateFormatted, priceFormatted } from "../../utils/formatter";
-import { SearchForm } from "./components/SearchForm";
+import { Header } from '../../components/Header'
+import { Summary } from '../../components/Summary'
+import { useTransactions } from '../../contexts/useTransactions'
+import { dateFormatted, priceFormatted } from '../../utils/formatter'
+import { SearchForm } from './components/SearchForm'
 import {
   PriceHightLight,
   TransactionContainer,
   TransactionTable,
-} from "./styles";
+} from './styles'
 
 export function Home() {
-  const { transactions } = useTransactions();
+  const { transactions } = useTransactions()
 
   return (
     <div>
@@ -26,7 +26,7 @@ export function Home() {
                 <td width="50%">{transaction.description}</td>
                 <td>
                   <PriceHightLight variant={transaction.type}>
-                    {transaction.type === "outcome" && "- "}
+                    {transaction.type === 'outcome' && '- '}
                     {priceFormatted.format(transaction.price)}
                   </PriceHightLight>
                 </td>
@@ -40,5 +40,5 @@ export function Home() {
         </TransactionTable>
       </TransactionContainer>
     </div>
-  );
+  )
 }
