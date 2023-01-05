@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
-import { api } from "../../services/axios";
+import { useTransactions } from "../../contexts/useTransactions";
+import { dateFormatted, priceFormatted } from "../../utils/formatter";
 import { SearchForm } from "./components/SearchForm";
 import {
   PriceHightLight,
@@ -9,25 +9,9 @@ import {
   TransactionTable,
 } from "./styles";
 
-interface Transaction {
-  id: number;
-  description: string;
-  price: number;
-  category: string;
-  created_at: string;
-  type: "income" | "outcome";
-}
-
 export function Home() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const { transactions } = useTransactions();
 
-  useEffect(() => {
-    async function getTransactions() {
-      const response = await api.get("http://localhost:3333/transactions");
-      setTransactions(response.data);
-    }
-    getTransactions();
-  }, []);
   return (
     <div>
       <Header />
@@ -42,11 +26,14 @@ export function Home() {
                 <td width="50%">{transaction.description}</td>
                 <td>
                   <PriceHightLight variant={transaction.type}>
-                    R$ {transaction.price}
+                    {transaction.type === "outcome" && "- "}
+                    {priceFormatted.format(transaction.price)}
                   </PriceHightLight>
                 </td>
                 <td>{transaction.category}</td>
-                <td>{transaction.created_at.toString()}</td>
+                <td>
+                  {dateFormatted.format(new Date(transaction.created_at))}
+                </td>
               </tr>
             ))}
           </tbody>
