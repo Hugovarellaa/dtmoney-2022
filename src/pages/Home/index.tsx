@@ -1,10 +1,11 @@
 import { Header } from "../../components/Header";
+import { Summary } from "../../components/Summary";
 
 export function Home() {
   return (
     <div>
       <Header />
-      <h1>Home</h1>
+      <Summary />
     </div>
   );
 }
