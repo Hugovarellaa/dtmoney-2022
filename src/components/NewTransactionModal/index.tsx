@@ -2,8 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
 import { Controller, useForm } from 'react-hook-form'
+import { useContextSelector } from 'use-context-selector'
 import * as zod from 'zod'
-import { useTransactions } from '../../contexts/useTransactions'
+import { TransactionsContext } from '../../contexts/useTransactions'
 
 import {
   CloseButton,
@@ -23,7 +24,11 @@ const newTransactionFormSchema = zod.object({
 type NewTransaction = zod.infer<typeof newTransactionFormSchema>
 
 export function NewTransactionModal() {
-  const { createTransaction } = useTransactions()
+  const createTransaction = useContextSelector(
+    TransactionsContext,
+    (context) => context.createTransaction,
+  )
+
   const {
     register,
     handleSubmit,
@@ -39,7 +44,6 @@ export function NewTransactionModal() {
       type: 'income',
     },
   })
-
   async function handleCreateNewTransaction(data: NewTransaction) {
     createTransaction(data)
     reset()
@@ -71,11 +75,6 @@ export function NewTransactionModal() {
             required
             {...register('category')}
           />
-
-          {/* Forma de validar component nao nativo de formulário */}
-          {/* formState -> traz informação do contexto do formulário "exemplo: error, submitting, loading"  */}
-          {/* fieldState -> traz informação do campo type  */}
-          {/* field -> traz os evento que alterar a informação e o valor atual */}
           <Controller
             control={control}
             name="type"
@@ -99,7 +98,6 @@ export function NewTransactionModal() {
               )
             }}
           />
-
           <button type="submit" disabled={isSubmitting}>
             Cadastrar
           </button>
