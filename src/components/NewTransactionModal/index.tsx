@@ -28,6 +28,7 @@ export function NewTransactionModal() {
     TransactionsContext,
     (context) => context.createTransaction,
   )
+
   const {
     register,
     handleSubmit,
