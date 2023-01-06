@@ -43,7 +43,6 @@ export function NewTransactionModal() {
       type: 'income',
     },
   })
-
   async function handleCreateNewTransaction(data: NewTransaction) {
     createTransaction(data)
     reset()
@@ -75,11 +74,6 @@ export function NewTransactionModal() {
             required
             {...register('category')}
           />
-
-          {/* Forma de validar component nao nativo de formulário */}
-          {/* formState -> traz informação do contexto do formulário "exemplo: error, submitting, loading"  */}
-          {/* fieldState -> traz informação do campo type  */}
-          {/* field -> traz os evento que alterar a informação e o valor atual */}
           <Controller
             control={control}
             name="type"
@@ -103,7 +97,6 @@ export function NewTransactionModal() {
               )
             }}
           />
-
           <button type="submit" disabled={isSubmitting}>
             Cadastrar
           </button>
